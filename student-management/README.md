@@ -49,68 +49,74 @@ Provides CRUD operations on students and a simple HTML view.
 ---
 
 ## Project Structure
+
+```
 student-management/
 ├─ src/main/java/com/shekoofe/student_management/
-│ ├─ controller/ # REST controllers
-│ ├─ model/ # JPA entities
-│ ├─ repository/ # Spring Data JPA repositories
-│ ├─ service/ # Service layer
-│ └─ exception/ # Custom exceptions
+│  ├─ controller/      # REST controllers
+│  ├─ model/           # JPA entities
+│  ├─ repository/      # Spring Data JPA repositories
+│  ├─ service/         # Service layer
+│  └─ exception/       # Custom exceptions
 ├─ src/main/resources/
-│ ├─ application.properties # Spring Boot configuration
-│ └─ import.sql # Initial data for H2 database
-├─ src/test/java/... # Unit and integration tests
-└─ pom.xml # Maven build file
-
+│  ├─ application.properties  # Spring Boot configuration
+│  └─ import.sql              # Initial data for H2 database
+├─ src/test/java/...           # Unit and integration tests
+└─ pom.xml                     # Maven build file
+```
 ---
 
 ## Setup & Installation
 
 1. Clone the repository:
 
-git clone https://github.com/shkBostan/student-management.git
+    git clone https://github.com/shkBostan/student-management.git
 cd student-management
 
 2. Build the project using Maven:
 
-mvn clean package
+    mvn clean package
 
 3. Open the project in your favorite IDE (IntelliJ IDEA, Eclipse, VS Code, etc.)
 
-Running the Application
+---
 
-a. Run the Spring Boot application:
+## Running the Application
 
 mvn spring-boot:run
 
-b. The application will start on http://localhost:8080
+- The application will start on http://localhost:8080
+- HTML view of students: http://localhost:8080/api/students/view
+- Swagger/OpenAPI documentation: http://localhost:8080/swagger-ui.html
 
-c. To see the HTML view of students:
-http://localhost:8080/api/students/view
-
-d. Swagger/OpenAPI documentation is available at:
-http://localhost:8080/swagger-ui.html
+---
 
 ## API Endpoints
-Method	URL	Description
-GET	/api/students	List all students
-GET	/api/students/{id}	Get a student by ID
-POST	/api/students	Create a new student
-PUT	/api/students/{id}	Update an existing student
-DELETE	/api/students/{id}	Delete a student
-GET	/api/students/view	HTML view of all students
-Example JSON for POST/PUT
+
+| Method | URL                     | Description                  |
+|--------|-------------------------|------------------------------|
+| GET    | /api/students           | List all students           |
+| GET    | /api/students/{id}      | Get a student by ID         |
+| POST   | /api/students           | Create a new student        |
+| PUT    | /api/students/{id}      | Update an existing student  |
+| DELETE | /api/students/{id}      | Delete a student            |
+| GET    | /api/students/view      | HTML view of all students   |
+
+**Example JSON for POST/PUT:**
 {
-  "name": "Ali",
-  "major": "Math",
-  "age": 20
+"name": "Ali",
+"major": "Math",
+"age": 20
 }
+
+---
 
 ## Testing
 
-Unit & integration tests with JUnit 5 and MockMvc.
+- Unit & integration tests with JUnit 5 and MockMvc.
+- Run tests: mvn test
 
-Run tests: mvn test
+---
 
 ## License
 
