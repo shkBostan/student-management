@@ -1,6 +1,8 @@
 package com.shekoofe.student_management.controller;
 
+import com.shekoofe.student_management.dto.StudentDTO;
 import com.shekoofe.student_management.exception.ResourceNotFoundException;
+import com.shekoofe.student_management.mapper.StudentMapper;
 import com.shekoofe.student_management.model.Student;
 import com.shekoofe.student_management.service.StudentService;
 import jakarta.validation.Valid;
@@ -27,64 +29,49 @@ import java.util.List;
 public class StudentController {
     private final StudentService service;
 
-    /**
-     * Get all students.
-     * @return List of Student objects
-     */
+    /** Get all students. */
     @GetMapping
-    public List<Student> getAllStudents() { return service.findAll(); }
-
-    /**
-     * Get a single student by ID.
-     * @param id Student ID
-     * @return Student object
-     * @throws ResourceNotFoundException if student not found
-     */
-    @GetMapping("/{id}")
-    public Student getStudent(@PathVariable Long id) { return service.findById(id); }
-
-    /**
-     * Create a new student.
-     * @param student Student object from request body
-     * @return Saved Student object
-     */
-    @PostMapping
-    public Student addStudent(@Valid @RequestBody Student student) { return service.save(student); }
-
-    /**
-     * Update an existing student.
-     * @param id Student ID
-     * @param student Student object from request body
-     * @return Updated Student object
-     */
-    @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
-        student.setId(id);
-        return service.save(student);
+    public List<StudentDTO> getAllStudents() {
+        return service.findAll().stream()
+                .map(StudentMapper::toDto)
+                .toList(); // Java 16+
     }
 
-    /**
-     * Delete a student by ID.
-     * @param id Student ID
-     */
-    @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id) { service.delete(id); }
+    /** Get a single student by ID. */
+    @GetMapping("/{id}")
+    public StudentDTO getStudent(@PathVariable Long id) {
+        return StudentMapper.toDto(service.findById(id));
+    }
 
-    /**
-     * Handle ResourceNotFoundException and return HTTP 404.
-     * @param ex Exception
-     * @return ResponseEntity with error message
-     */
+    /** Create a new student. */
+    @PostMapping
+    public StudentDTO addStudent(@Valid @RequestBody StudentDTO dto) {
+        Student saved = service.save(StudentMapper.toEntity(dto));
+        return StudentMapper.toDto(saved);
+    }
+
+    /** Update an existing student. */
+    @PutMapping("/{id}")
+    public StudentDTO updateStudent(@PathVariable Long id, @RequestBody StudentDTO dto) {
+        Student student = StudentMapper.toEntity(dto);
+        student.setId(id);
+        Student updated = service.save(student);
+        return StudentMapper.toDto(updated);
+    }
+
+    /** Delete a student by ID. */
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable Long id) {
+        service.delete(id);
+    }
+
+    /** Handle ResourceNotFoundException and return HTTP 404. */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-
-    /**
-     * Simple HTML view of all students.
-     * @return HTML string
-     */
+    /** Simple HTML view of all students. */
     @GetMapping("/view")
     @ResponseBody
     public String viewAllStudents() {
