@@ -53,15 +53,17 @@ Provides CRUD operations on students and a simple HTML view.
 ```
 student-management/
 ├─ src/main/java/com/shekoofe/student_management/
-│  ├─ controller/      # REST controllers
-│  ├─ model/           # JPA entities
-│  ├─ repository/      # Spring Data JPA repositories
-│  ├─ service/         # Service layer
-│  └─ exception/       # Custom exceptions
+│  ├─ controller/       # REST controllers (StudentController)
+│  ├─ dto/              # Data Transfer Objects (StudentDTO)
+│  ├─ mapper/           # Mappers between Entities and DTOs (StudentMapper)
+│  ├─ model/            # JPA entities (Student)
+│  ├─ repository/       # Spring Data JPA repositories (StudentRepository)
+│  ├─ service/          # Business logic layer (StudentService)
+│  └─ exception/        # Custom exceptions (StudentNotFoundException)
 ├─ src/main/resources/
-│  ├─ application.properties  # Spring Boot configuration
-│  └─ import.sql              # Initial data for H2 database
-├─ src/test/java/...           # Unit and integration tests
+│  ├─ application.properties   # Spring Boot configuration
+│  └─ import.sql               # Initial data for H2 database
+├─ src/test/java/...            # Unit and integration tests
 └─ pom.xml                     # Maven build file
 ```
 ---
